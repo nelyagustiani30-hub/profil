@@ -1,6 +1,7 @@
 function goProfile() {
     document.getElementById("home").classList.add("hidden");
     document.getElementById("profil").classList.remove("hidden");
+    window.scrollTo({ top: 0, behavior: "instant" });
 }
 
 function goBack() {
