@@ -2,94 +2,403 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Profil Saya</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Profil Nelly Agustiani, mahasiswa Teknik Informatika Universitas Jabal Ghafur.">
+    <title>Nelly Agustiani | Profil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --indigo: #1e094f;
+            --violet: #2d1b7e;
+            --sky: #4facfe;
+            --gold: #ffd36e;
+            --glass: rgba(255, 255, 255, 0.1);
+            --line: rgba(255, 255, 255, 0.22);
+            --muted: rgba(255, 255, 255, 0.72);
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif;
+            color: #fff;
+            line-height: 1.6;
+            background:
+                radial-gradient(circle at 12% 8%, rgba(79, 172, 254, 0.45), transparent 45%),
+                radial-gradient(circle at 92% 92%, rgba(255, 211, 110, 0.18), transparent 40%),
+                linear-gradient(135deg, var(--indigo), var(--violet) 55%, #3b82d6);
+            background-attachment: fixed;
+        }
+
+        .hidden { display: none !important; }
+        .view { animation: masuk 0.5s ease both; }
+        @keyframes masuk { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+        a, button { -webkit-tap-highlight-color: transparent; }
+        :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+        /* ---------- FOTO ---------- */
+        .avatar { position: relative; width: 150px; height: 150px; margin: 0 auto; flex: none; }
+        .avatar::before {
+            content: "";
+            position: absolute;
+            inset: -7px;
+            border-radius: 50%;
+            background: conic-gradient(var(--gold), var(--sky), #fff, var(--gold));
+            animation: putar 7s linear infinite;
+        }
+        @keyframes putar { to { transform: rotate(360deg); } }
+        .photo {
+            position: relative;
+            z-index: 1;
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid var(--violet);
+        }
+
+        /* ---------- HOME ---------- */
+        #home {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 32px 20px;
+        }
+        .hero {
+            width: 100%;
+            max-width: 560px;
+            text-align: center;
+            padding: 44px 28px 36px;
+            background: var(--glass);
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 20px 50px rgba(10, 4, 40, 0.4);
+        }
+        .hero h1 {
+            margin: 30px 0 4px;
+            font-size: clamp(1.9rem, 6vw, 2.6rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+        }
+        .role {
+            min-height: 1.8em;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--gold);
+        }
+        .role::after {
+            content: "";
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            margin-left: 3px;
+            vertical-align: -0.2em;
+            background: var(--gold);
+            animation: kedip 1s steps(1) infinite;
+        }
+        @keyframes kedip { 50% { opacity: 0; } }
+        .bio { max-width: 42ch; margin: 14px auto 26px; color: var(--muted); }
+
+        .actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+        .btn {
+            font: inherit;
+            font-weight: 700;
+            padding: 12px 26px;
+            border-radius: 999px;
+            border: 2px solid #fff;
+            cursor: pointer;
+            transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn.solid { background: #fff; color: var(--indigo); }
+        .btn.solid:hover { background: var(--gold); border-color: var(--gold); }
+        .btn.ghost { background: transparent; color: #fff; }
+        .btn.ghost:hover { background: rgba(255, 255, 255, 0.15); }
+
+        /* ---------- PROFIL ---------- */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px max(20px, calc((100% - 960px) / 2));
+            background: rgba(30, 9, 79, 0.72);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--line);
+        }
+        .topbar strong { font-weight: 800; }
+        .topbar .btn { padding: 8px 18px; font-size: 0.9rem; }
+
+        .wrap { max-width: 960px; margin: 0 auto; padding: 36px 20px 60px; }
+
+        .intro {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            padding: 30px;
+            background: var(--glass);
+            border: 1px solid var(--line);
+            border-radius: 28px;
+        }
+        .intro .avatar { width: 130px; height: 130px; margin: 0; }
+        .intro h2 { margin: 0; font-size: clamp(1.6rem, 4vw, 2.1rem); font-weight: 800; letter-spacing: -0.02em; }
+        .intro .sub { color: var(--gold); font-weight: 500; margin: 2px 0 8px; }
+        .intro p { margin: 0; color: var(--muted); max-width: 52ch; }
+
+        section { margin-top: 44px; }
+        section > h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 0 18px;
+            font-size: 1.35rem;
+            font-weight: 800;
+        }
+        section > h3::after {
+            content: "";
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, var(--line), transparent);
+        }
+
+        .data {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+            margin: 0;
+        }
+        .data div {
+            padding: 14px 18px;
+            background: var(--glass);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+        }
+        .data dt { font-size: 0.82rem; color: var(--muted); }
+        .data dd { margin: 2px 0 0; font-weight: 700; }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 16px;
+        }
+        .proj {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 22px;
+            color: #fff;
+            text-decoration: none;
+            background: var(--glass);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+        .proj:hover { transform: translateY(-4px); background: rgba(255, 255, 255, 0.17); border-color: var(--gold); }
+        .proj .ico { font-size: 2rem; line-height: 1; margin-bottom: 6px; }
+        .proj strong { font-size: 1.05rem; }
+        .proj .desc { color: var(--muted); font-size: 0.93rem; flex: 1; }
+        .proj .go { margin-top: 10px; color: var(--gold); font-weight: 700; font-size: 0.93rem; }
+
+        .skills { display: flex; flex-wrap: wrap; gap: 10px; }
+        .skills span {
+            padding: 8px 18px;
+            border-radius: 999px;
+            background: #fff;
+            color: var(--indigo);
+            font-weight: 700;
+        }
+
+        footer { margin-top: 56px; text-align: center; color: var(--muted); font-size: 0.88rem; }
+
+        @media (max-width: 640px) {
+            .hero { padding: 36px 20px 28px; }
+            .intro { flex-direction: column; text-align: center; padding: 26px 20px; gap: 18px; }
+            .intro .avatar { margin: 0 auto; }
+            .intro p { margin: 0 auto; }
+            .wrap { padding-top: 24px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .view, .avatar::before, .role::after { animation: none; }
+            .btn, .proj { transition: none; }
+        }
+    </style>
 </head>
 <body>
 
 <!-- HALAMAN UTAMA -->
-<div id="home" class="card">
-    <img src="foto.jpeg" alt="Foto Saya">
-
-    <h2>NELLY AGUSTIANI</h2>
-    <div class="title">Mahasiswa Teknik Informatika</div>
-
-    <p>
-        Saya mahasiswa semester 4 yang memiliki minat dalam pengembangan web dan pemrograman.
-    </p>
-
-    <button onclick="goProfile()" class="btn">Lihat Profil</button>
-</div>
-
-<!-- HALAMAN PROFIL -->
-<div id="profil" class="container hidden">
-
-    <div class="header">
-        <img src="foto.jpeg" alt="Foto">
-        <h2>NELLY AGUSTIANI</h2>
-        <p>Mahasiswa Teknik Informatika</p>
-        <p>Saya mahasiswa semester 4 yang memiliki minat dalam pengembangan web.</p>
-    </div>
-
-    <div class="section">
-        <h2>Data Diri</h2>
-        <table>
-            <tr><td>Nama</td><td>: Nelly agustiani</td></tr>
-            <tr><td>NPM</td><td>: 24105111119</td></tr>
-            <tr><td>Kelas</td><td>: 4,3</td></tr>
-            <tr><td>TTL</td><td>: bambi, 20-08-2005</td></tr>
-            <tr><td>Alamat</td><td>: desa kp.blang raya</td></tr>
-            <tr><td>Kampus</td><td>: Universitas Jabal Ghafur</td></tr>
-        </table>
-    </div>
-
-     <div class="section"> 
-        <h2>💡 project</h2> 
-        <p> 1.platform video pendek
-            <a href ="https://nelyagustiani30-hub.github.io/platform/" target="_blank"> 
-                https://nelyagustiani30-hub.github.io/platform/ 
-            </a>
-        </p>
-        <p> 2.platform lingkungan
-            <a href ="https://nelyagustiani30-hub.github.io/projek2/" target="_blank"> 
-                 https://nelyagustiani30-hub.github.io/projek2/
-            </a>
-        </p>
-          <p> 3.konsultasi psikolong online
-            <a href ="https://nelyagustiani30-hub.github.io/konsul/" target="_blank"> 
-                https://nelyagustiani30-hub.github.io/konsul/
-            </a>
-        </p>
-         <p> 3.mesin kata
-            <a href ="http://websiteku123.free.je" target="_blank"> 
-                http://websiteku123.free.je
-            </a>
-        <p> 4.singgah pidies
-            <a href ="https://singgah-pidie.free.je/" target="_blank"> 
-                https://singgah-pidie.free.je/s
-            </a>
-        <p> 5.penggingat sholat
-            <a href =" http://pengingat-sholat.ifree.page/" target="_blank"> 
-                 http://pengingat-sholat.ifree.page/
-            </a>
-        </p>
-    </div>
-
-    <div class="section">
-        <h2>Skill</h2>
-        <div class="skills">
-            <span>HTML</span>
-            <span>CSS</span>
-            <span>JavaScript</span>
-            <span>PHP</span>
-            <span>MySQL</span>
+<main id="home" class="view">
+    <div class="hero">
+        <div class="avatar">
+            <img class="photo" src="foto.jpeg" alt="Foto Nelly Agustiani" width="150" height="150">
+        </div>
+        <h1>Nelly Agustiani</h1>
+        <div class="role" id="role" aria-live="off">Mahasiswa Teknik Informatika</div>
+        <p class="bio">Mahasiswa semester 4 yang memiliki minat dalam pengembangan web dan pemrograman.</p>
+        <div class="actions">
+            <button type="button" class="btn solid" id="btnProfil">Lihat profil</button>
+            <button type="button" class="btn ghost" id="btnProyek">Lihat proyek</button>
         </div>
     </div>
+</main>
 
-    <button onclick="goBack()" class="btn">← Kembali</button>
+<!-- HALAMAN PROFIL -->
+<div id="profil" class="view hidden">
+    <div class="topbar">
+        <strong>Nelly Agustiani</strong>
+        <button type="button" class="btn ghost" id="btnKembali">← Kembali</button>
+    </div>
 
+    <div class="wrap">
+        <div class="intro">
+            <div class="avatar">
+                <img class="photo" src="foto.jpeg" alt="Foto Nelly Agustiani" width="130" height="130">
+            </div>
+            <div>
+                <h2>Nelly Agustiani</h2>
+                <div class="sub">Mahasiswa Teknik Informatika</div>
+                <p>Saya mahasiswa semester 4 yang memiliki minat dalam pengembangan web dan pemrograman.</p>
+            </div>
+        </div>
+
+        <section>
+            <h3>Data diri</h3>
+            <dl class="data">
+                <div><dt>Nama</dt><dd>Nelly Agustiani</dd></div>
+                <div><dt>NPM</dt><dd>24105111119</dd></div>
+                <div><dt>Kelas</dt><dd>4,3</dd></div>
+                <div><dt>Tempat, tanggal lahir</dt><dd>Bambi, 20-08-2005</dd></div>
+                <div><dt>Alamat</dt><dd>Desa Kp. Blang Raya</dd></div>
+                <div><dt>Kampus</dt><dd>Universitas Jabal Ghafur</dd></div>
+            </dl>
+        </section>
+
+        <section id="proyek">
+            <h3>💡 Proyek</h3>
+            <div class="projects">
+                <a class="proj" href="https://nelyagustiani30-hub.github.io/platform/" target="_blank" rel="noopener">
+                    <span class="ico">🎬</span>
+                    <strong>Platform Video Pendek</strong>
+                    <span class="desc">Situs untuk menonton dan berbagi video berdurasi singkat.</span>
+                    <span class="go">Buka situs</span>
+                </a>
+                <a class="proj" href="https://nelyagustiani30-hub.github.io/projek2/" target="_blank" rel="noopener">
+                    <span class="ico">🌱</span>
+                    <strong>Platform Lingkungan</strong>
+                    <span class="desc">Situs yang mengangkat kepedulian terhadap lingkungan.</span>
+                    <span class="go">Buka situs</span>
+                </a>
+                <a class="proj" href="https://nelyagustiani30-hub.github.io/konsul/" target="_blank" rel="noopener">
+                    <span class="ico">🧠</span>
+                    <strong>Konsultasi Psikolog Online</strong>
+                    <span class="desc">Layanan konsultasi psikologi secara daring.</span>
+                    <span class="go">Buka situs</span>
+                </a>
+                <a class="proj" href="http://websiteku123.free.je" target="_blank" rel="noopener">
+                    <span class="ico">🔤</span>
+                    <strong>Mesin Kata</strong>
+                    <span class="desc">Aplikasi web berbasis kata yang dibuat dengan PHP.</span>
+                    <span class="go">Buka situs</span>
+                </a>
+                <a class="proj" href="https://singgah-pidie.free.je/" target="_blank" rel="noopener">
+                    <span class="ico">📍</span>
+                    <strong>Singgah Pidie</strong>
+                    <span class="desc">Situs informasi tempat singgah di Pidie.</span>
+                    <span class="go">Buka situs</span>
+                </a>
+                <a class="proj" href="http://pengingat-sholat.ifree.page/" target="_blank" rel="noopener">
+                    <span class="ico">🕌</span>
+                    <strong>Pengingat Sholat</strong>
+                    <span class="desc">Pengingat waktu sholat harian.</span>
+                    <span class="go">Buka situs</span>
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <h3>Skill</h3>
+            <div class="skills">
+                <span>HTML</span>
+                <span>CSS</span>
+                <span>JavaScript</span>
+                <span>PHP</span>
+                <span>MySQL</span>
+            </div>
+        </section>
+
+        <footer>© 2026 Nelly Agustiani</footer>
+    </div>
 </div>
 
-<script src="java.js"></script>
+<script>
+    var home = document.getElementById('home');
+    var profil = document.getElementById('profil');
+
+    function tampil(nama, gulirKeProyek) {
+        var keProfil = nama === 'profil';
+        home.classList.toggle('hidden', keProfil);
+        profil.classList.toggle('hidden', !keProfil);
+        window.scrollTo(0, 0);
+        if (keProfil && gulirKeProyek) {
+            document.getElementById('proyek').scrollIntoView();
+        }
+    }
+
+    document.getElementById('btnProfil').addEventListener('click', function () { location.hash = 'profil'; });
+    document.getElementById('btnProyek').addEventListener('click', function () { tampil('profil', true); location.hash = 'profil'; });
+    document.getElementById('btnKembali').addEventListener('click', function () { location.hash = 'beranda'; });
+
+    window.addEventListener('hashchange', function () {
+        tampil(location.hash === '#profil' ? 'profil' : 'home');
+    });
+    if (location.hash === '#profil') { tampil('profil'); }
+
+    // Teks peran berganti dengan efek mengetik
+    var peran = ['Mahasiswa Teknik Informatika', 'Semester 4', 'Pemula di pengembangan web', 'Suka pemrograman'];
+    var el = document.getElementById('role');
+    var tanpaGerak = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!tanpaGerak) {
+        var p = 0, c = peran[0].length, hapus = true;
+        (function ketik() {
+            var kata = peran[p];
+            el.textContent = kata.slice(0, c);
+            var jeda = hapus ? 45 : 85;
+            if (hapus && c === 0) { hapus = false; p = (p + 1) % peran.length; jeda = 350; }
+            else if (!hapus && c === peran[p].length) { hapus = true; jeda = 1800; }
+            else { c += hapus ? -1 : 1; }
+            setTimeout(ketik, jeda);
+        })();
+    }
+
+    // Foto: coba beberapa nama file otomatis, kalau tidak ada tampil inisial "NA"
+    var kandidat = ['foto.jpeg', 'foto.jpg', 'Foto.jpeg', 'Foto.jpg', 'foto.png', 'Foto.png', 'foto.JPG', 'foto.JPEG'];
+    var placeholder = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">' +
+        '<rect width="200" height="200" fill="#4facfe"/>' +
+        '<text x="100" y="125" font-size="80" font-family="Arial" fill="white" text-anchor="middle">NA</text></svg>'
+    );
+    document.querySelectorAll('.photo').forEach(function (img) {
+        var i = 0;
+        img.onerror = function () {
+            i++;
+            if (i < kandidat.length) { img.src = kandidat[i]; }
+            else { img.onerror = null; img.src = placeholder; }
+        };
+        if (img.complete && img.naturalWidth === 0) { img.onerror(); }
+    });
+</script>
+
 </body>
 </html>
